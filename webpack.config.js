@@ -177,6 +177,7 @@ if (process.env.NODE_ENV === 'development') {
     }
   };
   config.cache = true;
+  // config.devtool = 'source-map';
   config.module.rules = config.module.rules.concat(
     {
       test: /\.css$/,

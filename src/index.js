@@ -11,6 +11,9 @@ if (module.hot) {
  * 请求静态文件列表 可做进度条
  */
 console.log(config);
+for(let a of [1,2,4]){
+  console.log('测试-',a)
+}
 axios.get(config.staticlist)
   .then(function (response) {
     console.log(response.data);
