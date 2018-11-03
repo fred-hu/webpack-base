@@ -54,16 +54,6 @@ let config = {
         ]
       },
       {
-        test: /\.less$/,
-        use: [{
-          loader: "style-loader"
-        }, {
-          loader: "css-loader"
-        }, {
-          loader: "less-loader"
-        }]
-      },
-      {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/
@@ -143,7 +133,17 @@ if (process.env.NODE_ENV === 'development') {
         },
         'postcss-loader'
       ]
-    }
+    },
+    {
+      test: /\.less$/,
+      use: [{
+        loader: "style-loader"
+      }, {
+        loader: "css-loader"
+      }, {
+        loader: "less-loader"
+      }]
+    },
   );
 } else {
   config.entry = {
@@ -155,8 +155,8 @@ if (process.env.NODE_ENV === 'development') {
     new CleanWebpackPlugin(['dist']),
     new MinifyPlugin(),
     new MiniCssExtractPlugin({
-      filename: "css/[name].css",
-      chunkFilename: "css/[name].css"
+      filename: "css/[name].[id].css",
+      chunkFilename: "css/[name].[id].css"
     })
   );
   config.mode = 'production';
@@ -190,7 +190,18 @@ if (process.env.NODE_ENV === 'development') {
         },
         'postcss-loader'
       ]
-    }
+    },
+    {
+      test: /\.less$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+          loader: 'postcss-loader'
+        },
+        'less-loader'
+      ]
+    },
   );
 }
 process.env.NODE_ENV === 'analyze' && config.plugins.push(new BundleAnalyzerPlugin());
